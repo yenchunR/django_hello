@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ricghgu2nlzpg9^$nl+0cbiw)9*nluq+_y8z959xx(1+d6hc!i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['myhellozz.herokuapp.com/']
+ALLOWED_HOSTS = ['myhelloqq.herokuapp.com/']
 
 #新增static資料夾的路徑設定
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
