@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myhello',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -132,17 +134,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGGING = {    
     'version': 1,    
-    'disable_existing_loggers': False,    
+    'disable_existing_loggers': True,
+    'formatters':{
+        'standard':{
+            'format': '%(asctime)s [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'
+        }
+    }, 
     'handlers': {        
-        'file': {            
-            'level': 'DEBUG',            
-            'class': 'logging.FileHandler',            
-            'filename': './debug.log',        
-            },    
+        'debug': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':'./debug.log',
+            'formatter':'standard'
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'standard',
+        },
     },    
     'loggers': {        
         'django': {            
-            'handlers': ['file'],            
+            'handlers': ['console', 'debug'],            
             'level': 'DEBUG',            
             'propagate': True,        
         },    
