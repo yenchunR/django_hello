@@ -8,4 +8,6 @@ urlpatterns = [
     #path('list', views.list_post, name='list_post'),
     path('register/', views.Register,name='Register'),
     path('profile/', views.List,name='List'),
+
+    
 ]
