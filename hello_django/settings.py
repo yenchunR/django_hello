@@ -29,8 +29,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['*', 'myhelloqq.herokuapp.com']
 
 #新增static資料夾的路徑設定
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+django_heroku.settings(locals())
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,11 +48,20 @@ INSTALLED_APPS = [
     'myhello',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
 MIDDLEWARE = [
+    #Add new :
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    ##
+
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,12 +71,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 ROOT_URLCONF = 'hello_django.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,6 +108,7 @@ DATABASES = {
     }
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -130,6 +147,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#Add new:
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
