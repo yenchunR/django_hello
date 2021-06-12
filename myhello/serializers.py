@@ -1,8 +1,11 @@
 from rest_framework import serializers
-from .models import User
+from .models import UserComment
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
-        fields = ('id', 'name', 'passwd', 'account', 'created_at')
+        model = UserComment
+        fields = ('id', 'name', 'comment', 'created_at')
+
+    def __str__(self):
+        return self.name

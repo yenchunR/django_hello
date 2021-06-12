@@ -1,4 +1,4 @@
-#from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,23 +9,23 @@ import json
 import logging
 
 from .serializers import *
-from .models import User
+from .models import UserComment
 
 logger = logging.getLogger('django')              
 
 @api_view(['GET'])
-def Register(request):
+def AddComment(request):
     name = request.GET.get('name', '')
-    passwd = request.GET.get('passwd', '')
-    account = request.GET.get('account', '')
+    comment = request.GET.get('comment', '')
 
-    new_post = User()
+    new_post = UserComment()
+
     new_post.name = name
-    new_post.passwd = passwd
-    new_post.account = account
+    new_post.comment = comment
 
     new_post.save()
-    if name:
+
+    if name and comment:
         return Response({"data": name + " Successful!"}, status=status.HTTP_200_OK)
 
     else:
@@ -35,12 +35,11 @@ def Register(request):
         )
 
 @api_view(['GET'])
-def List(request):
-    name = request.GET.get('name', '')
+def ListComment(request):
     
-    users = User.objects.get(name=name)
-    if users:
-        serializer = UserSerializer(users)
+    comments = UserComment.objects.all()
+    if comments:
+        serializer = UserSerializer(comments, many=True)
         return Response(serializer.data)
     else:
         return Response(
