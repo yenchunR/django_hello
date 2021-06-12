@@ -30,8 +30,11 @@ ALLOWED_HOSTS = ['*', 'myhelloqq.herokuapp.com']
 
 #新增static資料夾的路徑設定
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-django_heroku.settings(locals())
 
+'''
+import django_heroku
+django_heroku.settings(locals())
+'''
 try:
     from .local_settings import *
 except ImportError:
